@@ -3,23 +3,35 @@ import Database.DatabaseOperations;
 public class Main {
     public static void main(String[] args) {
 
-        int employeeId = 1;
-        String inputPassword = "password1";
-
         try {
-            String storedPassword = DatabaseOperations.getPassword(employeeId);
+            int testEmployeeId = 1;
 
-            if (storedPassword.equals("Incorrect Password")) {
-                System.out.println("User does not exist or incorrect password.");
-            } else if (storedPassword.equals(inputPassword)) {
-                System.out.println("Password is correct.");
-            } else {
-                System.out.println("Password is incorrect.");
-            }
+            String firstName = DatabaseOperations.getFirstName(testEmployeeId);
+            System.out.println("First Name: " + firstName);
+
+            String lastName = DatabaseOperations.getLastName(testEmployeeId);
+            System.out.println("Last Name: " + lastName);
+
+            String age = DatabaseOperations.getAge(testEmployeeId);
+            System.out.println("Age: " + age);
+
+            String salary = DatabaseOperations.getSalary(testEmployeeId);
+            System.out.println("Salary: " + salary);
+
+            String address = DatabaseOperations.getAddress(testEmployeeId);
+            System.out.println("Address: " + address);
+
+            String phoneNumber = DatabaseOperations.getPhoneNumber(testEmployeeId);
+            System.out.println("Phone Number: " + phoneNumber);
+
+            String employeeType = DatabaseOperations.getEmployeeType(testEmployeeId);
+            System.out.println("Employee Type: " + employeeType);
+
+            String password = DatabaseOperations.getPassword(testEmployeeId);
+            System.out.println("Password: " + password);
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("Error occurred while checking the password.");
+            System.out.println("PostgreSQL JDBC Driver not found!");
         }
 
     }

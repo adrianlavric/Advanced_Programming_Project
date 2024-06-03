@@ -1,9 +1,12 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import Staff.CurrentInfo;
+import Staff.Holiday;
+import Staff.Meeting;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class DatabaseOperations {
 
@@ -53,6 +56,453 @@ public class DatabaseOperations {
         }
     }
 
+    public static String getFirstName(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT first_name FROM employee WHERE id = " + employeeId;
 
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("first_name");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the first name";
+        }
+    }
+
+    public static String getLastName(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT last_name FROM employee WHERE id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("last_name");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the last name";
+        }
+    }
+
+    public static String getAge(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT age FROM employee WHERE id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("age");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the age";
+        }
+    }
+
+    public static String getSalary(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT salary FROM employee WHERE id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("salary");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the salary";
+        }
+    }
+
+    public static String getAddress(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT address FROM employee WHERE id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("address");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the address";
+        }
+    }
+
+    public static String getPhoneNumber(int employeeId) throws ClassNotFoundException {
+        String query = "SELECT phone_number FROM employee WHERE id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                return rs.getString("phone_number");
+            } else {
+                return "Employee ID does not exist";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error occurred while fetching the phone number";
+        }
+    }
+
+    public static void changePassword(String newPassword, int employeeId) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE employee_passwords SET password = '" + newPassword + "' WHERE employee_id = " + employeeId;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error occurred while updating the password");
+        }
+    }
+
+    public static void deleteEmployee(int ID) throws ClassNotFoundException, SQLException {
+        String query1 = "DELETE FROM employee WHERE id = " + ID;
+        String query2 = "DELETE FROM employee_passwords WHERE employee_id = " + ID;
+        String query3 = "DELETE FROM user_roles WHERE employee_id = " + ID;
+        String query4 = "DELETE FROM employee_holidays WHERE employee_id = " + ID;
+        String query5 = "DELETE FROM employee_meetings WHERE employee_id = " + ID;
+
+        Class.forName("org.postgresql.Driver");
+
+        Statement st;
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
+            st = con.createStatement();
+            st.executeUpdate(query1);
+            st.executeUpdate(query2);
+            st.executeUpdate(query3);
+            st.executeUpdate(query4);
+            st.executeUpdate(query5);
+        }
+        if (st != null) {
+            st.close();
+        }
+    }
+
+    public static void addEmployee(String firstName,
+                                   String lastName,
+                                   String address,
+                                   int age,
+                                   String gender,
+                                   String roleType,
+                                   int salary,
+                                   String phoneNumber,
+                                   String password) throws ClassNotFoundException, SQLException {
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+
+            String query1 = "INSERT INTO employee (first_name, last_name, age, salary, address, phone_number, gender) " +
+                    "VALUES ('" + firstName + "', '" + lastName + "', " + age + ", " + salary + ", '" + address + "', '" + phoneNumber + "', '" + gender + "') RETURNING id";
+
+            ResultSet rs = st.executeQuery(query1);
+            int employeeId = 0;
+            if (rs.next()) {
+                employeeId = rs.getInt("id");
+            }
+
+            String query2 = "INSERT INTO employee_passwords (employee_id, password) " +
+                    "VALUES (" + employeeId + ", '" + password + "')";
+
+            String query3 = "INSERT INTO user_roles (employee_id, role_type) " +
+                    "VALUES (" + employeeId + ", '" + roleType + "')";
+
+            st.executeUpdate(query2);
+            st.executeUpdate(query3);
+        }
+    }
+
+    public static ArrayList<Holiday> getAllHolidays() throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_holidays ORDER BY status";
+
+        Class.forName("org.postgresql.Driver");
+
+        ArrayList<Holiday> holidays = new ArrayList<>();
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            while (rs.next()) {
+                int ID = rs.getInt("employee_id");
+                holidays.add(new Holiday(rs.getInt("holiday_id"),
+                        ID,
+                        getFirstName(ID),
+                        getLastName(ID),
+                        rs.getString("start_date"),
+                        rs.getString("end_date"),
+                        rs.getString("status")));
+            }
+
+            return holidays;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Holiday> getHolidays(int ID) throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_holidays WHERE employee_id = " + ID + " ORDER BY status";
+
+        Class.forName("org.postgresql.Driver");
+
+        ArrayList<Holiday> holidays = new ArrayList<>();
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            while(rs.next()) {
+                holidays.add(new Holiday(rs.getInt("holiday_id"),
+                        ID,
+                        getFirstName(ID),
+                        getLastName(ID),
+                        rs.getString("start_date"),
+                        rs.getString("end_date"),
+                        rs.getString("status")));
+            }
+
+            return holidays;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Holiday getHoliday() throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_holidays WHERE status = 'Pending' ORDER BY start_date ASC";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                int id = rs.getInt("employee_id");
+                return new Holiday(rs.getInt("holiday_id"),
+                        id,
+                        getFirstName(id),
+                        getLastName(id),
+                        rs.getString("start_date"),
+                        rs.getString("end_date"),
+                        rs.getString("status"));
+            } else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Meeting getMeeting() throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_meetings WHERE status = 'Pending' ORDER BY date ASC";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            if (rs.next()) {
+                int id = rs.getInt("employee_id");
+                return new Meeting(rs.getInt("meeting_id"),
+                        id,
+                        getFirstName(id),
+                        getLastName(id),
+                        rs.getString("date"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("status"));
+            } else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Meeting> getAllMeetings() throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_meetings ORDER BY status";
+
+        Class.forName("org.postgresql.Driver");
+
+        ArrayList<Meeting> meetings = new ArrayList<>();
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            while (rs.next()) {
+                int ID = rs.getInt("employee_id");
+                meetings.add(new Meeting(rs.getInt("meeting_id"),
+                        ID,
+                        getFirstName(ID),
+                        getLastName(ID),
+                        rs.getString("date"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("status")));
+            }
+
+            return meetings;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Meeting> getMeetings(int ID) throws ClassNotFoundException {
+        String query = "SELECT * FROM employee_meetings WHERE employee_id = " + ID + " ORDER BY status";
+
+        Class.forName("org.postgresql.Driver");
+
+        ArrayList<Meeting> meetings = new ArrayList<>();
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
+
+            while (rs.next()) {
+                meetings.add(new Meeting(rs.getInt("meeting_id"),
+                        ID,
+                        getFirstName(ID),
+                        getLastName(ID),
+                        rs.getString("date"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getString("status")));
+            }
+
+            return meetings;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void acceptHoliday(int holidayID) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE employee_holidays SET status = 'Accepted' WHERE holiday_id = " + holidayID;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public static void declineHoliday(int holidayID) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE employee_holidays SET status = 'Declined' WHERE holiday_id = " + holidayID;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public static void acceptMeeting(int meetingID) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE employee_meetings SET status = 'Accepted' WHERE meeting_id = " + meetingID;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public static void declineMeeting(int meetingID) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE employee_meetings SET status = 'Declined' WHERE meeting_id = " + meetingID;
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public static void addHoliday(LocalDate startDate, LocalDate endDate) throws ClassNotFoundException, SQLException {
+        int employeeID = CurrentInfo.getID();
+        String start = startDate.toString();
+        String end = endDate.toString();
+
+        String query = "INSERT INTO employee_holidays VALUES (DEFAULT," + employeeID + ",'" + start + "','" + end + "','Pending')";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
+
+    public static void addMeeting(LocalDate startDateTime, LocalDate endDateTime) throws ClassNotFoundException, SQLException {
+        int employeeID = CurrentInfo.getID();
+        String start = startDateTime.toString();
+        String end = endDateTime.toString();
+
+        String query = "INSERT INTO employee_meetings VALUES (DEFAULT," + employeeID + ",'" + start + "','" + end + "','Pending')";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            st.executeUpdate(query);
+        }
+    }
 
 }
