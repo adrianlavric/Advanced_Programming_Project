@@ -9,7 +9,7 @@ import java.util.List;
 public class CurrentInfo {
     private static Employee user;
     private static ArrayList<Holiday> holidays;
-    private static ArrayList<Meeting> meetings;
+    int numberOfUsers = 2;
 
     public static Employee getUser() {
         return user;
@@ -23,24 +23,56 @@ public class CurrentInfo {
         return user.getFirstName();
     }
 
+    public static void setFirstName(String name) {
+        user.setFirstName(name);
+    }
+
     public static String getLastName() {
         return user.getLastName();
+    }
+
+    public static void setLastName(String name) {
+        user.setLastName(name);
     }
 
     public static String getAddress() {
         return user.getAddress();
     }
 
+    public static void setAdress(String adress) {
+        user.setAddress(adress);
+    }
+
     public static int getAge() {
         return user.getAge();
+    }
+
+    public static void setAge(int age) {
+        user.setAge(age);
     }
 
     public static String getGender() {
         return user.getGender();
     }
 
+    public static void setGender(String gender) {
+        user.setGender(gender);
+    }
+
     public static int getSalary() {
         return user.getSalary();
+    }
+
+    public static void setSalary(int salary) {
+        user.setSalary(salary);
+    }
+
+    public static String getPhoneNumber() {
+        return user.getPhoneNumber();
+    }
+
+    public static void setPhoneNumber(String phoneNumber) {
+        user.setPhoneNumber(phoneNumber);
     }
 
     public static int getID() {
@@ -59,16 +91,15 @@ public class CurrentInfo {
         return holidays;
     }
 
-    public static void setEmployeeMeeting() throws ClassNotFoundException {
-        meetings = DatabaseOperations.getMeetings(getID());
-    }
+    public static void RefreshUser() throws ClassNotFoundException {
 
-    public static void setMeetings() throws ClassNotFoundException {
-        meetings = DatabaseOperations.getAllMeetings();
-    }
-
-    public static List<Meeting> getMeetings() {
-        return meetings;
+        CurrentInfo.setFirstName(DatabaseOperations.getFirstName(CurrentInfo.getID()));
+        CurrentInfo.setLastName(DatabaseOperations.getLastName(CurrentInfo.getID()));
+        CurrentInfo.setAdress(DatabaseOperations.getAddress(CurrentInfo.getID()));
+        CurrentInfo.setAge(Integer.parseInt(DatabaseOperations.getAge(CurrentInfo.getID())));
+        CurrentInfo.setGender(DatabaseOperations.getGender(CurrentInfo.getID()));
+        CurrentInfo.setSalary(Integer.parseInt(DatabaseOperations.getSalary(CurrentInfo.getID())));
+        CurrentInfo.getUser().setPhoneNumber(DatabaseOperations.getPhoneNumber(CurrentInfo.getID()));
     }
 
 }
