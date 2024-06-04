@@ -609,6 +609,4 @@ public class DatabaseOperations {
         return 0;
     }
 
-
-
 }
