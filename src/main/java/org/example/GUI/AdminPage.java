@@ -252,7 +252,7 @@ public class AdminPage {
         content.add(phoneNumberInfo);
 
         quickmenu.setBounds(0, 0, 230, 500);
-        quickmenu.setBackground(Color.GRAY);
+        quickmenu.setBackground(Color.LIGHT_GRAY);
 
         content.setBounds(231, 0, 800, 500);
 

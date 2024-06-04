@@ -20,11 +20,16 @@ public class GUI {
         new Login();
         new UserPage();
         new AdminPage();
+        new UserHoliday();
+        new UserHolidayDisplay();
+        new UserHolidayAdd();
 
         container.add(Login.getPage(), "Login");
         container.add(UserPage.getPage(), "UserMenu");
         container.add(AdminPage.getPage(), "AdminMenu");
-
+        container.add(UserHoliday.getPage(), "HolidayRequest");
+        container.add(UserHolidayDisplay.getPage(), "UserHolidayDisplay");
+        container.add(UserHolidayAdd.getPage(), "UserHolidayAdd");
 
         cardLayout.show(container, "Login");
 

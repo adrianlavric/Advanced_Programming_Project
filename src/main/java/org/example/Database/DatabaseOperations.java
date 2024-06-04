@@ -546,12 +546,18 @@ public class DatabaseOperations {
         }
     }
 
-    public static void addHoliday(LocalDate startDate, LocalDate endDate) throws ClassNotFoundException, SQLException {
+    public static void addHoliday(String startYear, String startMonth, String startDay,
+                                  String endYear, String endMonth, String endDay)
+            throws ClassNotFoundException, SQLException {
         int employeeID = CurrentInfo.getID();
+
+        LocalDate startDate = LocalDate.of(Integer.parseInt(startYear), Integer.parseInt(startMonth), Integer.parseInt(startDay));
+        LocalDate endDate = LocalDate.of(Integer.parseInt(endYear), Integer.parseInt(endMonth), Integer.parseInt(endDay));
+
         String start = startDate.toString();
         String end = endDate.toString();
 
-        String query = "INSERT INTO employee_holidays VALUES (DEFAULT," + employeeID + ",'" + start + "','" + end + "','Pending')";
+        String query = "INSERT INTO employee_holidays VALUES (DEFAULT, " + employeeID + ", '" + start + "', '" + end + "', 'Pending')";
 
         Class.forName("org.postgresql.Driver");
 

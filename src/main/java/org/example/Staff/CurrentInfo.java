@@ -88,7 +88,11 @@ public class CurrentInfo {
     }
 
     public static List<Holiday> getHolidays() {
-        return holidays;
+        try {
+            return DatabaseOperations.getHolidays(CurrentInfo.getID());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void RefreshUser() throws ClassNotFoundException {

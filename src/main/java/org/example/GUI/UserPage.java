@@ -89,9 +89,9 @@ public class UserPage {
             GUI.getCardLayout().show(GUI.getContainer(), "UserMenu");
         });
 
-//        holidays.addActionListener(listener -> {
-//            GUI.getCardLayout().show(GUI.getContainer(), "HolidayRequest");
-//        });
+        holidays.addActionListener(listener -> {
+            GUI.getCardLayout().show(GUI.getContainer(), "HolidayRequest");
+        });
 
         contentSend.addActionListener(listener -> {
             try {
