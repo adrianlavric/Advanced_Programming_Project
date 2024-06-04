@@ -525,7 +525,7 @@ public class DatabaseOperations {
     }
 
     public static void acceptHoliday(int holidayID) throws ClassNotFoundException, SQLException {
-        String query = "UPDATE employee_holidays SET status = 'Accepted' WHERE holiday_id = " + holidayID;
+        String query = "UPDATE employee_holidays SET status = 'Approved' WHERE holiday_id = " + holidayID;
 
         Class.forName("org.postgresql.Driver");
 

@@ -14,8 +14,8 @@ public class AdminPage {
     private final JPanel quickmenu, content;
     private final JLabel welcome, title, idEntryText, infoChangeText, dropdownLabel, id, firstName, lastName, age, salary, address, phoneNumber, gender;
     private final JTextField idInput, infoChangeInput;
-    private final JButton logout, userSearch, contentSend, addRemoveEmployee, holidays;
-    private String userSearchText, titleText, userSelection, data, addRemoveEmployeeText, holidaysText;
+    private final JButton logout, userSearch, contentSend, holidays;
+    private String userSearchText, titleText, userSelection, data, holidaysText;
     private Choice selection;
     private int inputResult;
     private static boolean refresh = false;
@@ -33,9 +33,6 @@ public class AdminPage {
 
         userSearchText = "Employee\nInformation";
         userSearch = new JButton("<html><style>p {text-align: center;}</style> <p>" + userSearchText.replaceAll("\\n", "<br>") + "</p></html>");
-
-        addRemoveEmployeeText = "Add/Remove\nEmployee";
-        addRemoveEmployee = new JButton("<html><style>p {text-align: center;}</style> <p>" + addRemoveEmployeeText.replaceAll("\\n", "<br>") + "</p></html>");
 
         holidaysText = "Holiday\nManagement";
         holidays = new JButton("<html><style>p {text-align: center;}</style> <p>" + holidaysText.replaceAll("\\n", "<br>") + "</p></html>");
@@ -97,13 +94,9 @@ public class AdminPage {
             GUI.getCardLayout().show(GUI.getContainer(), "AdminMenu");
         });
 
-//        addRemoveEmployee.addActionListener(listener -> {
-//            GUI.getCardLayout().show(GUI.getContainer(), "AddRemoveEmployees");
-//        });
-//
-//        holidays.addActionListener(listener -> {
-//            GUI.getContainer().show(GUI.getContainer(), "HolidayManagement");
-//        });
+        holidays.addActionListener(listener -> {
+            GUI.getCardLayout().show(GUI.getContainer(), "AdminHoliday");
+        });
 
         contentSend.addActionListener(listener -> {
             try {
@@ -171,20 +164,17 @@ public class AdminPage {
             }
         });
 
-        welcome.setBounds(0, 50, 230, 15);
-        quickmenu.add(welcome);
-
         userSearch.setBounds(50, 100, 135, 45);
         quickmenu.add(userSearch);
 
-        addRemoveEmployee.setBounds(50, 170, 135, 45);
-        quickmenu.add(addRemoveEmployee);
-
-        holidays.setBounds(50, 240, 135, 45);
-        quickmenu.add(holidays);
-
-        logout.setBounds(78, 310, 76, 20);
+        logout.setBounds(78, 240, 76, 20);
         quickmenu.add(logout);
+
+        welcome.setBounds(0, 50, 230, 15);
+        quickmenu.add(welcome);
+
+        holidays.setBounds(50, 170, 135, 45);
+        quickmenu.add(holidays);
 
 
         title.setBounds(0, 20, 570, 35);

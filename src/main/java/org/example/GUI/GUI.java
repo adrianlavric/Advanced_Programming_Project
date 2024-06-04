@@ -23,6 +23,9 @@ public class GUI {
         new UserHoliday();
         new UserHolidayDisplay();
         new UserHolidayAdd();
+        new AdminHoliday();
+        new AdminHolidayDisplay();
+        new AdminHolidayOperations();
 
         container.add(Login.getPage(), "Login");
         container.add(UserPage.getPage(), "UserMenu");
@@ -30,9 +33,11 @@ public class GUI {
         container.add(UserHoliday.getPage(), "HolidayRequest");
         container.add(UserHolidayDisplay.getPage(), "UserHolidayDisplay");
         container.add(UserHolidayAdd.getPage(), "UserHolidayAdd");
+        container.add(AdminHoliday.getPage(), "AdminHoliday");
+        container.add(AdminHolidayDisplay.getPage(), "AdminHolidayDisplay");
+        container.add(AdminHolidayOperations.getPage(), "AdminHolidayOperations");
 
         cardLayout.show(container, "Login");
-
 
         window.add(container);
 
@@ -45,8 +50,6 @@ public class GUI {
 
     }
 
-
-
     public static CardLayout getCardLayout() {
         return cardLayout;
     }
@@ -54,6 +57,5 @@ public class GUI {
     public static JPanel getContainer() {
         return container;
     }
-
 
 }
