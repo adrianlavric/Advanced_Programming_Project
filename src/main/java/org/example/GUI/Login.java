@@ -6,6 +6,7 @@ import Staff.CurrentInfo;
 import Staff.User;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Login {
 
@@ -14,6 +15,7 @@ public class Login {
     private JPasswordField password;
     private JButton sendLogin;
     private JLabel returnMessage;
+    private JLabel title;
 
     public Login() {
 
@@ -21,12 +23,23 @@ public class Login {
         login.setLayout(null);
 
         username = new JTextField("Username", 15);
+        username.setFont(new Font("Arial", Font.PLAIN, 16));
+        username.setHorizontalAlignment(SwingConstants.CENTER);
 
         password = new JPasswordField("Password", 15);
+        password.setFont(new Font("Arial", Font.PLAIN, 16));
+        password.setHorizontalAlignment(SwingConstants.CENTER);
 
         sendLogin = new JButton("Login");
+        sendLogin.setFont(new Font("Arial", Font.BOLD, 16));
+        sendLogin.setHorizontalAlignment(SwingConstants.CENTER);
 
         returnMessage = new JLabel("", SwingConstants.CENTER);
+        returnMessage.setFont(new Font("Arial", Font.PLAIN, 16));
+        returnMessage.setHorizontalAlignment(SwingConstants.CENTER);
+
+        title = new JLabel();
+        title.setText("<html><h1 align = 'center' color='black'>StaffHolidays - Login</h1>");
 
         sendLogin.addActionListener(listener -> {
             String userName;
@@ -69,16 +82,19 @@ public class Login {
             }
         });
 
-        username.setBounds(315, 180, 171, 30);
+        title.setBounds(275, 40, 500, 100);
+        login.add(title);
+
+        username.setBounds(270, 160, 250, 45);
         login.add(username);
 
-        password.setBounds(315, 220, 171, 30);
+        password.setBounds(270, 225, 250, 45);
         login.add(password);
 
-        sendLogin.setBounds(355, 260, 91, 27);
+        sendLogin.setBounds(336, 290, 112, 33);
         login.add(sendLogin);
 
-        returnMessage.setBounds(275, 310, 250, 27);
+        returnMessage.setBounds(270, 343, 250, 34);
         login.add(returnMessage);
     }
 

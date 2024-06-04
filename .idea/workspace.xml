@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f81750c0-e04a-4e2b-8724-0d5bfeb3b8bc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/GUI/AdminPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/GUI/GUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/GUI/UserPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Database/DatabaseOperations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Database/DatabaseOperations.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/GUI/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/GUI/Login.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Staff/CurrentInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Advanced_Programming_Project/Staff/CurrentInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Database/DatabaseOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Database/DatabaseOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GUI/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GUI/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Staff/CurrentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Staff/CurrentInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
