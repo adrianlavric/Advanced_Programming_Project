@@ -4,12 +4,14 @@ import Database.DatabaseOperations;
 import Staff.Holiday;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
+import java.time.LocalDate;
 
 public class AdminHolidayOperations {
     private static JPanel menu;
     private final JPanel quickmenu, content;
-    private final JButton logout, userSearch, holidays, accept, decline;
+    private final JButton logout, userSearch, holidays, accept, decline, suggest;
     private final String titleText, userSearchText, holidaysText;
     private final JLabel welcome, title, employeeIDText, startDateText, endDateText, firstNameText, lastNameText;
     private static JLabel employeeID, startDate, endDate, firstName, lastName;
@@ -38,6 +40,8 @@ public class AdminHolidayOperations {
         decline = new JButton("Decline");
 
         logout = new JButton("Logout");
+
+        suggest = new JButton("Suggest");
 
         welcome = new JLabel("Admin Menu", SwingConstants.CENTER);
 
@@ -86,6 +90,46 @@ public class AdminHolidayOperations {
             }
         });
 
+        suggest.addActionListener(listener -> {
+            LocalDate tempStart;
+            LocalDate tempEnd;
+            try {
+                tempStart = LocalDate.parse(DatabaseOperations.getHoliday().getStartDate());
+                tempEnd = LocalDate.parse(DatabaseOperations.getHoliday().getEndDate());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                private String suggestionMessage;
+
+                @Override
+                protected Void doInBackground() {
+                    try {
+                        int employeesOnHoliday = DatabaseOperations.countEmployeesOnHoliday(tempStart, tempEnd);
+                        int totalEmployees = DatabaseOperations.getTotalEmployees();
+
+                        if (totalEmployees == 0) {
+                            suggestionMessage = "No employees in the database.";
+                        } else if ((totalEmployees - employeesOnHoliday) - 1 >= (totalEmployees / 2)) {
+                            suggestionMessage = "Suggestion: Accept the holiday request.";
+                        } else {
+                            suggestionMessage = "Suggestion: Decline the holiday request.";
+                        }
+                    } catch (Exception e) {
+                        suggestionMessage = "Error: " + e.getMessage();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    JOptionPane.showMessageDialog(null, suggestionMessage);
+                }
+        };
+            worker.execute();
+        });
+
         userSearch.setBounds(50, 100, 135, 45);
         quickmenu.add(userSearch);
 
@@ -121,6 +165,9 @@ public class AdminHolidayOperations {
 
         accept.setBounds(290, 360, 90, 25);
         content.add(accept);
+
+        suggest.setBounds(405, 360, 90, 25);
+        content.add(suggest);
 
         content.add(employeeID);
 

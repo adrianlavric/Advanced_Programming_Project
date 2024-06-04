@@ -3,13 +3,24 @@ package Staff;
 import Database.DatabaseOperations;
 
 import javax.xml.crypto.Data;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentInfo {
     private static Employee user;
     private static ArrayList<Holiday> holidays;
-    int numberOfUsers = 2;
+    int numberOfUsers;
+
+    {
+        try {
+            numberOfUsers = DatabaseOperations.getTotalEmployees();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static Employee getUser() {
         return user;

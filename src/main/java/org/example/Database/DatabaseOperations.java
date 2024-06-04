@@ -567,4 +567,48 @@ public class DatabaseOperations {
         }
     }
 
+    public static int countEmployeesOnHoliday(LocalDate startDate, LocalDate endDate) throws ClassNotFoundException, SQLException {
+        String query = "SELECT COUNT(*) FROM employee_holidays WHERE status = 'Approved' AND " +
+                "((start_date <= ? AND end_date >= ?) OR " +
+                "(start_date BETWEEN ? AND ?) OR " +
+                "(end_date BETWEEN ? AND ?))";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement pst = con.prepareStatement(query)) {
+            pst.setDate(1, java.sql.Date.valueOf(endDate));
+            pst.setDate(2, java.sql.Date.valueOf(startDate));
+            pst.setDate(3, java.sql.Date.valueOf(startDate));
+            pst.setDate(4, java.sql.Date.valueOf(endDate));
+            pst.setDate(5, java.sql.Date.valueOf(startDate));
+            pst.setDate(6, java.sql.Date.valueOf(endDate));
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+
+        return 0;
+    }
+
+    public static int getTotalEmployees() throws ClassNotFoundException, SQLException {
+        String query = "SELECT COUNT(*) FROM employee";
+
+        Class.forName("org.postgresql.Driver");
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement st = con.createStatement()) {
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                return rs.getInt(1) - 1;
+            }
+        }
+
+        return 0;
+    }
+
+
+
 }
